@@ -2,6 +2,8 @@ package com.epam.brest;
 
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
+
 public class App {
 
     public static final String PRICE_DISTANCE = "src/main/resources/distance.price";
@@ -51,11 +53,11 @@ public class App {
     }
 
     private static void calculateResult(Double[] enteredValues){
-        Double distance = enteredValues[0];
-        Double weight = enteredValues[1];
-        Double priceDistance = InputUtilities.getPriceFromFile(distance, PRICE_DISTANCE);
-        Double priceWeight = InputUtilities.getPriceFromFile(weight, PRICE_WEIGHT);
-        Double result = distance * priceDistance + weight * priceWeight;
+        BigDecimal distance = new BigDecimal(enteredValues[0]);
+        BigDecimal weight = new BigDecimal(enteredValues[1]);
+        BigDecimal priceDistance = new BigDecimal(InputUtilities.getPriceFromFile(enteredValues[0], PRICE_DISTANCE));
+        BigDecimal priceWeight = new BigDecimal(InputUtilities.getPriceFromFile(enteredValues[1], PRICE_WEIGHT));
+        BigDecimal result = distance.multiply(priceDistance).add(weight.multiply(priceWeight));
         logger.info("For distance: " + distance + " km. price: " + priceDistance + " per km.; weight: "
                 + weight + " kg. price: " + priceWeight
                 + " per kg. result summ: " + result);
