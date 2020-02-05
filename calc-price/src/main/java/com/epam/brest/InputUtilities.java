@@ -18,8 +18,8 @@ public class InputUtilities {
 
     public static String readString() throws InputUtilException {
 
-        Scanner scanner = new Scanner(System.in);
-        try {
+        try{
+            Scanner scanner = new Scanner(System.in);
             return scanner.nextLine();
         } catch (Exception ex) {
             logger.error("Read String from keyboart error: " + ex);
@@ -44,7 +44,6 @@ public class InputUtilities {
         try {
             positiveValue = Double.valueOf(value);
 
-
         } catch (Exception ex) {
             logger.error("Convert String " + value + " to positive Double error:" + ex);
             throw new InputUtilException("Convert String to positive Double exception");
@@ -61,10 +60,9 @@ public class InputUtilities {
 
     public static Double getPriceFromFile(Double userInputedValue, String priceFile) {
         Double priceFromFile = 0d;
-        try {
+        File file = new File(priceFile);
+        try (Scanner sc = new Scanner(file)) {
 
-            File file = new File(priceFile);
-            Scanner sc = new Scanner(file);
             Map<Double, Double> priceMap = new TreeMap<>();
             Set<Double> priceSet = new TreeSet<>();
 
