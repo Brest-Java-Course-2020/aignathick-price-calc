@@ -15,7 +15,7 @@ public class Calculator implements ICalculator {
         init();
     }
 
-    public void init(){
+    public void init() {
         this.inputUtilities = new InputUtilit();
     }
 

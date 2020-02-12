@@ -19,7 +19,7 @@ public class InputUtilit implements IInputUtilit {
     @Override
     public String readString() throws InputUtilException {
 
-        try{
+        try {
             Scanner scanner = new Scanner(System.in);
             return scanner.nextLine();
         } catch (Exception ex) {

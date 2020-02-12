@@ -11,7 +11,7 @@ public class App {
     public static void main(String[] args) {
 
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-config.xml");
-        IInputUtilit inputUtilit= (InputUtilit) applicationContext.getBean("inputUtilit");
+        IInputUtilit inputUtilit = (InputUtilit) applicationContext.getBean("inputUtilit");
         ICalculator calculator = (Calculator) applicationContext.getBean("calculator");
         IMenu menu = (Menu) applicationContext.getBean("menu");
 
@@ -30,7 +30,7 @@ public class App {
                 enteredValues[menuDialogSwitcher] = inputUtilit.getPositiveDoubleFromString(userDataFromConsoleInput);
                 menuDialogSwitcher++;
             } catch (Exception ex) {
-                logger.info("Incorrect data. Positive Double or "+menu.getExitKey()+" key available");
+                logger.info("Incorrect data. Positive Double or " + menu.getExitKey() + " key available");
                 break;
             }
 
