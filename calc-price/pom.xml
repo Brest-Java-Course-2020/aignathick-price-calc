@@ -7,6 +7,7 @@
   <groupId>com.epam.brest</groupId>
   <artifactId>calc-price</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
   <name>calc-price</name>
   <!-- FIXME change it to the project's website -->
@@ -31,6 +32,27 @@
       <artifactId>log4j</artifactId>
       <version>1.2.17</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>5.2.3.RELEASE</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>5.2.3.RELEASE</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>5.2.3.RELEASE</version>
+    </dependency>
+
   </dependencies>
 
   <build>
