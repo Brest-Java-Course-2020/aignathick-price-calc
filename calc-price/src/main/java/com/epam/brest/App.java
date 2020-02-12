@@ -1,65 +1,43 @@
 package com.epam.brest;
 
 import org.apache.log4j.Logger;
-
-import java.math.BigDecimal;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class App {
 
-    public static final String PRICE_DISTANCE = "src/main/resources/distance.price";
-    public static final String PRICE_WEIGHT = "src/main/resources/weight.price";
-    public static final String EXIT_KEY = "Q";
     private static Logger logger = Logger.getLogger(App.class);
 
     public static void main(String[] args) {
+
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-config.xml");
+        IInputUtilit inputUtilit= (InputUtilit) applicationContext.getBean("inputUtilit");
+        ICalculator calculator = (Calculator) applicationContext.getBean("calculator");
+        IMenu menu = (Menu) applicationContext.getBean("menu");
+
         int menuDialogSwitcher = 0;
         Double[] enteredValues = new Double[2];
         String userDataFromConsoleInput = "";
-        while (!isExitValue(userDataFromConsoleInput)) {
-            printMenuDialog(menuDialogSwitcher);
+
+        while (!menu.isExitValue(userDataFromConsoleInput)) {
+            menu.printMenuDialog(menuDialogSwitcher);
             try {
-                userDataFromConsoleInput = InputUtilities.readString();
-                if (isExitValue(userDataFromConsoleInput)) {
-                    logger.info(EXIT_KEY + " key was inputed by user. Exit from programm");
+                userDataFromConsoleInput = inputUtilit.readString();
+                if (menu.isExitValue(userDataFromConsoleInput)) {
+                    logger.info(menu.getExitKey() + " key was inputed by user. Exit from programm");
                     break;
                 }
-                enteredValues[menuDialogSwitcher] = InputUtilities.getPositiveDoubleFromString(userDataFromConsoleInput);
+                enteredValues[menuDialogSwitcher] = inputUtilit.getPositiveDoubleFromString(userDataFromConsoleInput);
                 menuDialogSwitcher++;
             } catch (Exception ex) {
-                logger.info("Incorrect data. Positive Double or "+EXIT_KEY+" key available");
+                logger.info("Incorrect data. Positive Double or "+menu.getExitKey()+" key available");
                 break;
             }
 
             if (menuDialogSwitcher == 2) {
-
-                calculateResult(enteredValues);
+                calculator.calculateResult(enteredValues);
                 menuDialogSwitcher = 0;
             }
         }
-    }
-
-    private static void printMenuDialog(int i) {
-        if (i == 0) {
-            System.out.println("Please enter distance km or " + EXIT_KEY + " for exit");
-        } else if (i == 1) {
-            System.out.println("Please enter weight kg or " + EXIT_KEY + " for exit");
-        } else {
-            logger.error("Abnormal situation. Max menu lvl is 2");
-        }
-    }
-
-    private static boolean isExitValue(String value) {
-        return value.equalsIgnoreCase(EXIT_KEY);
-    }
-
-    private static void calculateResult(Double[] enteredValues){
-        BigDecimal distance = new BigDecimal(enteredValues[0]);
-        BigDecimal weight = new BigDecimal(enteredValues[1]);
-        BigDecimal priceDistance = new BigDecimal(InputUtilities.getPriceFromFile(enteredValues[0], PRICE_DISTANCE));
-        BigDecimal priceWeight = new BigDecimal(InputUtilities.getPriceFromFile(enteredValues[1], PRICE_WEIGHT));
-        BigDecimal result = distance.multiply(priceDistance).add(weight.multiply(priceWeight));
-        logger.info("For distance: " + distance + " km. price: " + priceDistance + " per km.; weight: "
-                + weight + " kg. price: " + priceWeight
-                + " per kg. result summ: " + result);
     }
 }

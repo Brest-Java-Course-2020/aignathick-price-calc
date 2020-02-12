@@ -5,18 +5,19 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.util.*;
 
-public class InputUtilities {
+public class InputUtilit implements IInputUtilit {
 
-    private static Logger logger = Logger.getLogger(InputUtilities.class);
-    public static final String DELIMITER_VALUE = ";";
+    private static Logger logger = Logger.getLogger(InputUtilit.class);
+    public final String DELIMITER_VALUE = ";";
 
-    static class InputUtilException extends Exception {
+    class InputUtilException extends Exception {
         public InputUtilException(String msg) {
             super(msg);
         }
     }
 
-    public static String readString() throws InputUtilException {
+    @Override
+    public String readString() throws InputUtilException {
 
         try{
             Scanner scanner = new Scanner(System.in);
@@ -28,7 +29,8 @@ public class InputUtilities {
 
     }
 
-    public static Double getDoubleFromString(String value) throws InputUtilException {
+    @Override
+    public Double getDoubleFromString(String value) throws InputUtilException {
 
         try {
             return Double.valueOf(value);
@@ -39,7 +41,8 @@ public class InputUtilities {
 
     }
 
-    public static Double getPositiveDoubleFromString(String value) throws InputUtilException {
+    @Override
+    public Double getPositiveDoubleFromString(String value) throws InputUtilException {
         Double positiveValue;
         try {
             positiveValue = Double.valueOf(value);
@@ -58,7 +61,8 @@ public class InputUtilities {
 
     }
 
-    public static Double getPriceFromFile(Double userInputedValue, String priceFile) {
+    @Override
+    public Double getPriceFromFile(Double userInputedValue, String priceFile) {
         Double priceFromFile = 0d;
         File file = new File(priceFile);
         try (Scanner sc = new Scanner(file)) {
@@ -71,8 +75,8 @@ public class InputUtilities {
                 int delimiter = priceLine.indexOf(DELIMITER_VALUE);
                 String priceKey = priceLine.substring(0, delimiter);
                 String priceValue = priceLine.substring(++delimiter);
-                priceMap.put(InputUtilities.getPositiveDoubleFromString(priceKey), InputUtilities.getPositiveDoubleFromString(priceValue));
-                priceSet.add(InputUtilities.getPositiveDoubleFromString(priceKey));
+                priceMap.put(getPositiveDoubleFromString(priceKey), getPositiveDoubleFromString(priceValue));
+                priceSet.add(getPositiveDoubleFromString(priceKey));
             }
 
             for (Double setValue :
